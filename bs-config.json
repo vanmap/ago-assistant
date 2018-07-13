@@ -1,0 +1,8 @@
+{
+    "port":8000,
+    "files":["*.html", "./app/*.js"],
+    "server":{
+        "baseDir":"./build"
+    },
+    "browser":["chrome"]
+}
