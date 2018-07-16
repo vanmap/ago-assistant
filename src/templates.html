@@ -112,9 +112,10 @@
 
 <script type="text/template" id="contentTemplate">
 
-    <div id="{{ id }}" class="btn btn-default btn-block content" style="opacity: 1;" type="button" data-id="{{ id }}" data-type="{{ type }}" data-portal="{{ portal }}">
+    <div id="{{ id }}" class="btn btn-default btn-block content" style="opacity: 1;" type="button" data-id="{{ id }}" data-type="{{ type }}"
+        data-portal="{{ portal }}">
         <span class="icon {{ icon }}"></span>
-        <span class="itemTitle">{{ title }}</span>
+        <span class="itemTitle">{{ title }}</span><span class={{warning}}>*</span>
         <div class="itemDetailsDiv">
             <span class="itemType">
                 <strong>Type:</strong> {{ agoType }}
@@ -128,7 +129,7 @@
                 <div class="copyInProgress" style="display:none;"><em>Copying</em> <img src='css/grid.svg' class='harvestCopier'/></div>
             </span>
         </div>
-    </div>
+        </div>
 
 </script>
 
@@ -162,52 +163,48 @@
                     <a href="{{ url }}/home/item.html?id={{ id }}" target="_blank"> (View Item Details)</a>
                 </li>
                 <li class="list-group-item">
-                    <div class="btn-group btn-group edit-controls" role="group">
-                      <button type="button" class="btn btn-default" data-clipboard-target="#descriptionJson" title="Copy JSON" aria-label="Left Align">
+                    <div class="btn-group btn-group-lg edit-controls" role="group">
+                        <button type="button" class="btn btn-default" data-clipboard-target="#descriptionJson" aria-label="Left Align">
                         <span class="fa fa-lg fa-clipboard" aria-hidden="true"></span>
                       </button>
-                        <button type="button" class="btn btn-default disabled" data-action="saveEdits" aria-label="Left Align">
+                        <button type="button" class="btn btn-default disabled" data-action="saveEdits">
                             <span class="fa fa-lg fa-save" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-default" data-action="startEdits" data-container="Description" title="Edit JSON" aria-label="Left Align">
+                        <button type="button" class="btn btn-default" data-action="startEdits" data-container="Description" aria-label="Left Align">
                             <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                         </button>
                     </div>
-                    <div id="descriptionJson" class="jsonViewer">{{ description }}</div>
+                    <pre id="descriptionJson">{{ description }}</pre>
                 </li>
             </ul>
             {{ #data }}
-                <br>
-                <ul class="list-group">
-                    <li class="list-group-item">Data</li>
-                    <li class="list-group-item">
-                        <div class="btn-group btn-group edit-controls" role="group">
-                            <button type="button" class="btn btn-default" data-clipboard-target="#dataJson" title="Copy JSON" aria-label="Left Align">
+            <br>
+            <ul class="list-group">
+                <li class="list-group-item">Data</li>
+                <li class="list-group-item">
+                    <div class="btn-group btn-group-lg edit-controls" role="group">
+                        <button type="button" class="btn btn-default" data-clipboard-target="#dataJson" aria-label="Left Align">
                               <span class="fa fa-lg fa-clipboard" aria-hidden="true"></span>
                             </button>
-                            <button type="button" class="btn btn-default disabled" data-action="saveEdits" aria-label="Left Align">
+                        <button type="button" class="btn btn-default disabled" data-action="saveEdits" aria-label="Left Align">
                                 <span class="fa fa-lg fa-save" aria-hidden="true"></span>
                             </button>
-                            <button type="button" class="btn btn-default" data-action="startEdits" data-container="Data" title="Edit JSON" aria-label="Left Align">
+                        <button type="button" class="btn btn-default" data-action="startEdits" data-container="Data" aria-label="Left Align">
                                 <span class="fa fa-lg fa-pencil" aria-hidden="true"></span>
                             </button>
-                        </div>
-                        <div id="dataJson" class="jsonViewer">{{ data }}</div>
-                    </li>
-                </ul>
-            {{ /data }}
-            {{! Add a download link }}
-            {{ #downloadLink }}
-                <br>
-                <a href="{{ downloadLink }}" target="_blank" class="btn btn-link btn-lg btn-block" role="button">Download {{ title }}</a>
-            {{ /downloadLink }}
+                    </div>
+                    <pre id="dataJson">{{ data }}</pre>
+                </li>
+            </ul>
+            {{ /data }} {{! Add a download link }} {{ #downloadLink }}
+            <br>
+            <a href="{{ downloadLink }}" target="_blank" class="btn btn-link btn-lg btn-block" role="button">Download {{ title }}</a>            {{ /downloadLink }}
         </div>
     </div>
 
 </script>
 
 <script type="text/template" id="statsTemplate">
-
     <!-- User stats modal -->
     <div id="statsModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="statsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -226,7 +223,9 @@
                         <br>
                         <div class="row">
                             <h4 class="text-center">Most Popular Content</h4>
-                            <div id="mostViewedContent"><!--Most Viewed Content table--></div>
+                            <div id="mostViewedContent">
+                                <!--Most Viewed Content table-->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,15 +256,37 @@
     </table>
 
 </script>
-
+<script type="text/template" id="viewRef">
+    <div class="panel panel-primary">
+    <table class="table table-condensed">
+        <tr>
+            <th>Title</th>
+            <th>ID</th>
+            <th>Type</td>
+            <th>Owner</th>
+            <th>Folder</th>
+        </tr>
+        {{#maps}}
+        <tr>
+            <td >{{title}}</td>
+            <td>
+                <a href="#{{id}}" class="idRefMaps" data = "{{id}}">{{id}}</a> 
+            </td>
+            <td>{{type}}</td>
+            <td>{{owner}}</td>
+            <td>{{ownerFolder}}</td>
+        </tr>
+        {{/maps}}
+    </table>
+    </div>
+</script>
 <script type="text/template" id="webmapServicesTemplate">
-
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h2 class="panel-title">{{ webmapTitle }}</h2>
         </div>
         <div class="panel-body" id="itemDescription">
-            <form role="form">
+            <form role=" form">
                 <h5>Quick Text Find/Replace</h5>
                 <form class="form-inline">
                     <div class="form-group">
@@ -291,8 +312,16 @@
                     <h4>Operational Layers</h4>
                     {{ #operationalLayers }}
                     <div class="form-group">
-                        <label for="{{ id }}">{{ title }}</label>
-                        <input type="text" class="form-control" id="{{ id }}" value="{{ url }}" data-original="{{ url }}">
+                        <label for="{{id}}">Layer Type: {{layerType}}</label><br />
+                        <label for="{{id}}">Title &amp; ID: {{title}}  -- ({{id}})   </label>&nbsp;
+                        <div>
+                        {{#idCandidates}}
+                             <div class="idCandidates" data="{{id}}" data-url="{{url}}"><a href="#{{id}}">{{id}}-- {{title}}</a>  <label >-- {{owner}} </label>
+                             </div>
+                         {{/idCandidates}}
+                         </div>
+                        <input type="text" class="form-control" value="{{itemId}}" data-original="{{itemId}}" style="display:{{display}}" >
+                        <input type="text" class="form-control" id="{{id}}" value="{{ url }}" data-original="{{url}}">
                     </div>
                     {{ /operationalLayers }}
                     {{ ^operationalLayers }}
@@ -304,8 +333,8 @@
                     <h4>Tables</h4>
                     {{ #tables }}
                     <div class="form-group">
-                        <label for="{{ id }}">{{ title }}</label>
-                        <input type="text" class="form-control" id="{{ id }}" value="{{ url }}" data-original="{{ url }}">
+                        <label for="{{id}}">{{title}}</label>
+                        <input type="text" class="form-control" id="{{id}}" value="{{url}}" data-original="{{url}}">
                     </div>
                     {{ /tables }}
                     {{ ^tables }}
@@ -318,11 +347,13 @@
                     {{#basemapLayers}}
                     <div class="form-group">
                         <label for="{{ id }}">{{ id }}</label>
-                        <input type="text" class="form-control" id="{{ id }}" value="{{ url }}" data-original="{{ url }}">
+                        <input type="text" class="form-control url" id="{{ id }}" value="{{ url }}" data-original="{{url}}">
                     </div>
                     {{/basemapLayers}}
                 </div>
                 <div class="pull-right">
+                    <button type="submit" class="btn btn-default" id="btnValidateOpLayers">Validate Op Layers</button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
                     <button type="submit" class="btn btn-default" id="btnResetWebmapServices">Reset</button>
                     <button type="submit" class="btn btn-primary" id="btnUpdateWebmapServices">Update</button>
                 </div>
@@ -333,16 +364,14 @@
 </script>
 
 <script type="text/template" id="updateSuccessTemplate">
-
     <div class="alert alert-success alert-dismissable" style="position: absolute; z-index: 99">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        <strong>Success!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <strong>Success!</strong>
     </div>
 
 </script>
 
 <script type="text/template" id="updateErrorTemplate">
-
     <div class="alert alert-danger alert-dismissable" style="position:absolute; z-index: 99">
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <strong>Update failed! {{ error.message }}</strong>
@@ -351,17 +380,100 @@
 </script>
 
 <script type="text/template" id="itemContentTemplate">
-
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h2 class="panel-title">{{ title }}</h2>
         </div>
         <div class="panel-body" id="itemDescription">
-            <form role="form">
+            <form role=" form">
                 <div class="form-group">
                     <div class="form-group">
                         <label for="{{ id }}">URL</label>
-                        <input type="text" class="form-control" id="{{ id }}" value="{{ url }}" data-original="{{ url }}">
+                        <input type="text" class="form-control" id="{{ id }}" value="{{ url }}" data-original="{{ url}}">
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-default" id="btnResetContentUrl">Reset</button>
+                    <button type="submit" class="btn btn-primary" id="btnUpdateContentUrl">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</script>
+
+<script type="text/template" id="webMapAppTemplate">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2 class="panel-title">{{ title }}</h2>
+        </div>
+        <div class="panel-body" id="itemDescription">
+            <form role=" form">
+                <div class="form-group">
+                    <label for="{{ id }}">URL:</label>
+                    <input type="text" class="form-control" id="appUrl" value="{{ url }}" data-original="{{url}}"></input>  
+                </div>
+                <div class="form-group" id="appData">
+                    <div class="form-group">
+                            <label for="{{ id }}">Authorized Cross Original Domain:</label>
+                            <input type="text" class="form-control" id="appAuthorizedCRODs" value="{{ authorizedCrossOriginDomains }}" data-original="{{authorizedCrossOriginDomains}}"></input>                           
+                    </div>
+                    <div class="form-group">
+                            <label for="{{ id }}">Geometry Service</label>
+                            <input type="text" class="form-control" id="appGeometryService" value="{{ geometryService }}" data-original="{{ geometryService }}"></input>
+                    </div>
+                    <div class="form-group">
+                            {{#httpProxy}}
+                            <label for="{{ id }}">Http Proxy Url</label>
+                            <input type="text" class="form-control" id="appHttpProxyUrl" value="{{ url }}" data-original="{{ url }}"></input>
+                            {{/httpProxy}}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ id }}">Portal URL</label>
+                        <input type="text" class="form-control" id="appPortalUrl" value="{{ portalUrl }}" data-original="{{ portalUrl }}"></input>
+                    </div>
+                    <div class="form-group">
+                        <h4>Map</h4>
+                        {{ #map }}
+                        <div class="form-group">
+                            {{#idCandidates}}
+                             <div class="candidateMap" data="{{mapId}}" data-url={{cadidateMapPortal}}><a href="#{{mapId}}">{{mapId}} -- {{mapTitle}}</a>  
+                             </div>
+                             <!-- <input type="hidden" value="{{cadidateMapPortal}}"></input> -->
+                            {{/idCandidates}}
+                            <br />
+                            <div class="form-group">
+                                <labe for="mapItemId">Map Item:</label>
+                                <input type="text" class="form-control" id="mapItemId" value="{{itemId}}" data-original="{{itemId}}"></input>
+                                <!-- <input type="hidden" id="mapPortalUrl" value="{{portalUrl}}"></input> -->
+                                <label for="{{mapItemId}}">Map Portal Url</label>
+                                <input type="text" class="form-control" id="mapUrl" value="{{portalUrl}}" data-original="{{portalUrl}}"></input>
+                            </div>
+                        <div>
+                        {{/map}}
+                    </div>
+                    <div class="form-group">
+                         {{#widgetOnScreen}}
+                        <h4>Widgets on Screen</h4>
+                       
+                            {{#widgets}}
+                            <div class ="form-group widgetPool_widgets" id = {{id}}>                            
+                                <label>{{name}} URI</label>
+                                <input type="text" class="form-control" value="{{uri}}" data-original="{{uri}}"></input>
+                            </div>
+                            {{/widgets}}
+                        {{/widgetOnScreen}}
+                    </div>
+                    <div class="form-group">
+                         {{#widgetPool}}
+                        <h4>Widgets on Pool</h4>                      
+                            {{#widgets}}
+                            <div class ="form-group widgetPool_widgets" id = {{id}}>                            
+                                <label>{{name}} URI</label>
+                                <input type="text" class="form-control" value="{{uri}}" data-original="{{uri}}"></input>
+                            </div>
+                            {{/widgets}}
+                        {{/widgetPool}}
                     </div>
                 </div>
                 <div class="pull-right">

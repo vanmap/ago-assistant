@@ -38,6 +38,7 @@ export class Portal {
         this.updateDescription = content.updateDescription;
         this.updateData = content.updateData;
         this.updateUrl = content.updateUrl;
+        this.itemDependentsTo = content.itemDependentsTo;
 
         // Hosted Services methods.
         this.serviceDescription = hosting.serviceDescription;

@@ -5,6 +5,7 @@ import { updateData } from "./updateData";
 import { updateDescription } from "./updateDescription";
 import { updateUrl } from "./updateUrl";
 import { updateWebmapData } from "./updateWebmapData";
+import { itemDependentsTo } from "./itemDependentsTo";
 
 export {
     addItem,
@@ -13,5 +14,6 @@ export {
     updateData,
     updateDescription,
     updateUrl,
-    updateWebmapData
+    updateWebmapData,
+    itemDependentsTo
 };
